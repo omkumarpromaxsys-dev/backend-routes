@@ -3,7 +3,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.js";
-
+import errorHandler from "./middleware/errorHandler.js"
+import pgRoutes from "./routes/pg.routes.js";
+import roomRoutes from "./routes/room.routes.js"
 dotenv.config();
 
 const app = express();
@@ -18,6 +20,11 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
+
+app.use("/pg",pgRoutes);
+app.use("/rooms",roomRoutes);
+
+app.use(errorHandler);//...handle error
 
 const PORT = process.env.PORT || 5000;
 
