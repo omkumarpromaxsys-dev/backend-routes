@@ -28,9 +28,7 @@ export const createListing = async (req, res) => {
   });
 };
 
-/**
- * Student applies to become provider
- */
+
 export const applyForProvider = async (req, res) => {
   const { organizationName, description, contactPhone } = req.body;
 
