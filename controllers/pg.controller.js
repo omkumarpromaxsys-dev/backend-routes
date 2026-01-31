@@ -36,26 +36,27 @@ const createPG = async (req, res, next) => {
 
 const getAllPGs = async (req, res, next) => {
   try {
+    const { city } = req.query;
 
-    const {city} = req.query;
-    
-    let query = "select * from pgs ";
+    let result;
 
     if (city) {
-      query +="where city = $1";
-      
+      result = await pool.query(
+        "SELECT * FROM pgs WHERE city = $1",
+        [city]
+      );
+    } else {
+      result = await pool.query(
+        "SELECT * FROM pgs"
+      );
     }
 
-    const result = await pool.query(query,[city]);
-
-    console.log("PG list fetched");
-    console.log(result.rows);
-
-    return res.status(201).json({
+    return res.json({
       success: true,
       data: result.rows,
-      message: "PG list fetched successfully",
+      message: "PG list fetched successfully"
     });
+
   } catch (error) {
     next(error);
   }

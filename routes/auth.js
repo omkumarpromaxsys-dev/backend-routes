@@ -8,9 +8,7 @@ import { protect } from "../middleware/auth.js";
 
 const router = express.Router();
 
-/**
- * Cookie configuration
- */
+
 const cookieOptions = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
@@ -18,9 +16,6 @@ const cookieOptions = {
   maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
 };
 
-/**
- * Generate JWT with user identity
- */
 const generateToken = (user) => {
   return jwt.sign(
     {
@@ -32,10 +27,7 @@ const generateToken = (user) => {
   );
 };
 
-/**
- * REGISTER
- * Default role = student (DB enforced)
- */
+
 router.post("/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -78,9 +70,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-/**
- * LOGIN
- */
+
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -125,16 +115,12 @@ router.post("/login", async (req, res) => {
   }
 });
 
-/**
- * GET CURRENT USER
- */
+
 router.get("/me", protect, (req, res) => {
   res.json(req.user);
 });
 
-/**
- * LOGOUT
- */
+
 router.post("/logout", (req, res) => {
   res.cookie("token", "", { ...cookieOptions, maxAge: 1 });
   res.json({ message: "Logged out successfully" });
