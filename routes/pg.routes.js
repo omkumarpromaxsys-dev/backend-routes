@@ -5,6 +5,6 @@ import { requireRole } from "../middleware/role.js";
 const router = express.Router();
 
 router.post("/", protect, requireRole("provider"), createPG);
-router.get("/", protect, requireRole("student"), getAllPGs);
+router.get("/", protect, getAllPGs);
 
 export default router;
