@@ -1,10 +1,21 @@
+// routes/room.routes.js
+
 import express from "express";
-import {createRoom,getRoomsByPG} from "../controllers/room.controller.js";
+import { createRoom, getRoomsByPG } from "../controllers/room.controller.js";
+import { protect } from "../middleware/auth.js";
+import { requireRole } from "../middleware/role.js";
 
 const router = express.Router();
 
-router.post("/",createRoom);
-router.get("/by-pg",getRoomsByPG);
+// Public: students can view rooms
+router.get("/by-pg", getRoomsByPG);
 
+// Protected: only provider (PG owner) can create rooms
+router.post(
+  "/",
+  protect,
+  requireRole("provider"),
+  createRoom
+);
 
 export default router;
