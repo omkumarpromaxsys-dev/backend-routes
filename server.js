@@ -8,6 +8,8 @@ import pgRoutes from "./routes/pg.routes.js";
 import roomRoutes from "./routes/room.routes.js"
 import providerRoutes from "./routes/provider.js";
 import adminRoutes from "./routes/admin.js";
+import userRoutes from "./routes/user.routes.js";
+
 
 dotenv.config();
 
@@ -25,6 +27,10 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/provider", providerRoutes);
 app.use("/api/admin", adminRoutes);
+
+
+
+app.use("/api/profile",userRoutes);
 
 app.use("/pg",pgRoutes);
 app.use("/rooms",roomRoutes);
