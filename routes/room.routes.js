@@ -8,7 +8,7 @@ import { requireRole } from "../middleware/role.js";
 const router = express.Router();
 
 // Public: students can view rooms
-router.get("/by-pg", getRoomsByPG);
+router.get("/by-pg",protect, getRoomsByPG);
 
 // Protected: only provider (PG owner) can create rooms
 router.post(
