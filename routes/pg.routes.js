@@ -1,3 +1,5 @@
+// routes/pg.routes.js
+
 import express from "express";
 import { createPG, getAllPGs } from "../controllers/pg.controller.js";
 import { protect } from "../middleware/auth.js";

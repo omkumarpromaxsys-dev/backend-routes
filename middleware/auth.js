@@ -1,3 +1,5 @@
+// /middleware/auth.js
+
 import jwt from "jsonwebtoken";
 import pool from "../config/db.js";
 
