@@ -1,5 +1,3 @@
-// /controllers/pg.controller.js
-
 import pool from "../config/db.js";
 import { v4 as uuidv4 } from "uuid";
 
@@ -44,14 +42,7 @@ export const createPG = async (req, res, next) => {
       VALUES ($1, $2, $3, $4, $5, $6)
     `;
 
-    const values = [
-      pg_id,
-      name,
-      address,
-      city,
-      req.user.id,
-      total_rooms || 0,
-    ];
+    const values = [pg_id, name, address, city, req.user.id, total_rooms || 0,];
 
     await pool.query(query, values);
 

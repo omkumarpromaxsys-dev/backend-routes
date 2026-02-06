@@ -1,5 +1,3 @@
-// express.js
-
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -31,7 +29,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/pg",pgRoutes);
 app.use("/rooms",roomRoutes);
 
-app.use(errorHandler);//...handle error
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 

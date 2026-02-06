@@ -1,5 +1,3 @@
-// /controllers/adminControllers.js
-
 import pool from "../config/db.js";
 
 export const listPendingProviders = async (req, res) => {
