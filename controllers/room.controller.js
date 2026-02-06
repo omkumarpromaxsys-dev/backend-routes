@@ -3,14 +3,25 @@ import { v4 as uuidv4 } from "uuid";
 
 export const createRoom = async (req, res, next) => {
   try {
-    const { pg_id, room_number, type, price } = req.body;
+    const { room_number, type, price } = req.body;
 
-    if (!pg_id || !room_number || !type || !price) {
+    if (!room_number || !type || !price) {
       return res.status(400).json({
         success: false,
         message: "Missing required fields",
       });
     }
+
+    const result = await pool.query(
+      `
+  SELECT id
+  FROM pgs
+  WHERE owner_id = $1
+  `,
+      [req.user.id],
+    );
+
+    const pgId = result.rows[0]?.id;
 
     const pgResult = await pool.query(
       `
@@ -18,7 +29,7 @@ export const createRoom = async (req, res, next) => {
       FROM pgs
       WHERE id = $1
       `,
-      [pg_id]
+      [pgId],
     );
 
     if (pgResult.rows.length === 0) {
@@ -44,7 +55,7 @@ export const createRoom = async (req, res, next) => {
       VALUES ($1, $2, $3, $4, $5)
     `;
 
-    const values = [room_id, pg_id, room_number, type, price];
+    const values = [room_id, pgId, room_number, type, price];
 
     await pool.query(insertQuery, values);
 
@@ -60,27 +71,35 @@ export const createRoom = async (req, res, next) => {
 
 export const getRoomsByPG = async (req, res, next) => {
   try {
-    const { pg_id } = req.query;
+    const result = await pool.query(
+      `
+  SELECT id
+  FROM pgs
+  WHERE owner_id = $1
+  `,
+      [req.user.id],
+    );
 
-    if (!pg_id) {
+    const pgId = result.rows[0]?.id;
+    if (!pgId) {
       return res.status(400).json({
         success: false,
         message: "pg_id is required",
       });
     }
 
-    const result = await pool.query(
+    const roomResult = await pool.query(
       `
       SELECT *
       FROM rooms
       WHERE pg_id = $1
       `,
-      [pg_id]
+      [pgId],
     );
 
     return res.json({
       success: true,
-      data: result.rows,
+      data: roomResult.rows,
       message: "Rooms fetched successfully",
     });
   } catch (error) {

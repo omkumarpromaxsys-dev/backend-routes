@@ -114,9 +114,7 @@ router.post("/login", async (req, res) => {
 });
 
 
-router.get("/me", protect, (req, res) => {
-  res.json(req.user);
-});
+
 
 
 router.post("/logout", (req, res) => {
